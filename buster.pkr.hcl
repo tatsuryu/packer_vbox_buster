@@ -27,12 +27,12 @@ source "virtualbox-iso" "buster" {
   guest_os_type    = "Debian_64" # VBoxManage list ostypes
   ssh_username     = "vagrant"
   ssh_password     = "vagrant"
-  ssh_wait_timeout = "90m"
+  ssh_wait_timeout = "3h"
 
   cpus                 = "1"
   memory               = "1024"
   hard_drive_interface = "sata"
-  headless             = "true"
+  headless             = "false"
 
   iso_url      = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-10.7.0-amd64-netinst.iso"
   iso_checksum = "sha256:b317d87b0a3d5b568f48a92dcabfc4bc51fe58d9f67ca13b013f1b8329d1306d"
@@ -46,6 +46,15 @@ source "virtualbox-iso" "buster" {
 
 build {
   sources = ["sources.virtualbox-iso.buster"]
+
+  provisioner "shell" {
+    execute_command = "echo 'vagrant' | {{.Vars}} sudo -S -E bash -c '{{.Path}}'"
+    scripts = [
+      "scripts/sudoers.sh",
+      "scripts/vagrant.sh"
+    ]
+  }
+
   post-processor "vagrant" {
     keep_input_artifact = true
   }
