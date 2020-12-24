@@ -16,7 +16,7 @@ source "virtualbox-iso" "buster" {
     "locale=pt_BR.UTF-8 ",
     "kbd-chooser/method=br-abnt2 ",
     "console-keymaps-at/keymap=br-abnt2 ",
-    "keyboard-configuration/xkb-keymap=br-abnt2 ",
+    "keyboard-configuration/xkb-keymap=br ",
     "netcfg/get_hostname=buster ",
     "netcfg/get_domain=home.org ",
     "debconf/frontend=noninteractive ",
@@ -38,6 +38,9 @@ source "virtualbox-iso" "buster" {
   iso_checksum = "sha256:b317d87b0a3d5b568f48a92dcabfc4bc51fe58d9f67ca13b013f1b8329d1306d"
 
   shutdown_command = "echo 'vagrant' | sudo -S shutdown -P now"
+  
+  virtualbox_version_file = ".vbox_version"
+  guest_additions_path = "VBoxGuestAdditions_{{.Version}}.iso"
 
   boot_wait        = "3s"
   http_directory   = "."
@@ -51,7 +54,8 @@ build {
     execute_command = "echo 'vagrant' | {{.Vars}} sudo -S -E bash -c '{{.Path}}'"
     scripts = [
       "scripts/sudoers.sh",
-      "scripts/vagrant.sh"
+      "scripts/vagrant.sh",
+      "scripts/vboxguestadditions.sh"
     ]
   }
 
