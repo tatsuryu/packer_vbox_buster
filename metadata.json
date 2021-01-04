@@ -1,0 +1,15 @@
+{
+    "name": "tatsuryu/buster64",
+    "description": "This box contains a Debian Buster 64",
+    "versions": [
+        {
+            "version": "0.1.0",
+            "providers": [
+                {
+                    "name": "virtualbox",
+                    "url": "packer_buster_virtualbox.box"
+                }
+            ]
+        }
+    ]
+}
